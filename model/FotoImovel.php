@@ -73,7 +73,7 @@ class FotoImovel
         $res = $stmt->execute([
             ':id_imovel' => $this->id_imovel,
             ':caminho'   => $this->caminho,
-            ':destaque'  => $this->destaque ? 1 : 0, // tinyint(1) no banco
+            ':destaque'  => $this->destaque ? 1 : 0, 
             ':ordem'     => $this->ordem
         ]);
 
