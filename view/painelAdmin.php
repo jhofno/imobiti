@@ -1,3 +1,14 @@
+<?php
+    require_once(__DIR__."/../model/Imoveis.php");
+
+    $imoveis = Imovel::listarComFoto();
+
+    echo"<pre>";
+    print_r($imoveis);
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
