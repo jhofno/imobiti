@@ -3,10 +3,7 @@
 
     $imoveis = Imovel::listarComFoto();
 
-    echo"<pre>";
-    print_r($imoveis);
-
-
+   
 ?>
 
 <!DOCTYPE html>
@@ -103,18 +100,26 @@
                 </thead>
                 <tbody>
                     <!-- Exemplo de Linha 1 -->
+                     <?php foreach($imoveis as $imovel): ?>
+                     
+                     
+                     
                     <tr>
                         <td>
-                            <img src="https://via.placeholder.com/150" alt="Imóvel" class="img-preview">
+                            <img src="<? $imovel->foto_principal?>" alt="Imóvel" class="img-preview">
                         </td>
                         <td>
-                            <div class="fw-bold text-dark">Casa de Luxo no Condomínio Solar</div>
-                            <small class="text-muted">Barra da Tijuca, Rio de Janeiro - RJ</small>
+                            <div class="fw-bold text-dark"><?= $imovel->titulo ?></div>
+                            <small class="text-muted"><?= $imovel->bairro ?>-<?= $imovel->cidade ?>-<?= $imovel->estado ?></small>
                         </td>
-                        <td>Casa</td>
-                        <td>R$ 1.250.000,00</td>
+                        <td><?=ucfirst($imovel->tipo) ?></td>
+                        <td><?= $imovel->preco ?></td>
                         <td>
-                            <span class="badge bg-success badge-status">Disponível</span>
+                            <?php
+                             $cor = ['disponivel'=>'success','vendido'=>'danger','alugado'=>'warning'];
+                             $statusCor = $cor[$imovel->status] ?? 'secundary'
+                             ?>
+                            <span class="badge bg-<?= $statusCor?> badge-status"><?= $imovel->status ?></span>
                         </td>
                         <td class="text-end">
                             <div class="btn-group">
@@ -127,58 +132,7 @@
                             </div>
                         </td>
                     </tr>
-
-                    <!-- Exemplo de Linha 2 -->
-                    <tr>
-                        <td>
-                            <img src="https://via.placeholder.com/150" alt="Imóvel" class="img-preview">
-                        </td>
-                        <td>
-                            <div class="fw-bold text-dark">Apartamento Vista Mar</div>
-                            <small class="text-muted">Gonzaga, Santos - SP</small>
-                        </td>
-                        <td>Apartamento</td>
-                        <td>R$ 850.000,00</td>
-                        <td>
-                            <span class="badge bg-danger badge-status">Vendido</span>
-                        </td>
-                        <td class="text-end">
-                            <div class="btn-group">
-                                <a href="#" class="btn btn-sm btn-outline-primary" title="Editar">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                                <button type="button" class="btn btn-sm btn-outline-danger" title="Excluir">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <!-- Exemplo de Linha 3 -->
-                    <tr>
-                        <td>
-                            <img src="https://via.placeholder.com/150" alt="Imóvel" class="img-preview">
-                        </td>
-                        <td>
-                            <div class="fw-bold text-dark">Sobrado Moderno</div>
-                            <small class="text-muted">Jardins, São Paulo - SP</small>
-                        </td>
-                        <td>Casa</td>
-                        <td>R$ 2.100.000,00</td>
-                        <td>
-                            <span class="badge bg-warning text-dark badge-status">Alugado</span>
-                        </td>
-                        <td class="text-end">
-                            <div class="btn-group">
-                                <a href="#" class="btn btn-sm btn-outline-primary" title="Editar">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                                <button type="button" class="btn btn-sm btn-outline-danger" title="Excluir">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
+               <?php endforeach ?>
                 </tbody>
             </table>
         </div>
