@@ -83,8 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $idImovel = (int)$_GET['excluir_id'];
         $diretorio = "../uploads/imoveis/$idImovel/";
  
-        // Apaga o banco de dadosssssssssssssssssssssssssssssssssssssssssssssssssssss
-        $imovel = New Imovel(id: $idImovel);
+        // Apaga o banco de dadosss
         if($imovel->excluir()){
             // Apaga o diretorio
  
