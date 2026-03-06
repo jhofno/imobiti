@@ -1,11 +1,11 @@
 <?php
 require_once(__DIR__ . "/../model/Imoveis.php");
-require_once(__DIR__ . "/../model/FotoImovel.php"); // Importante para salvar as fotos
-
+require_once(__DIR__ . "/../model/FotoImovel.php");
+ 
 function criarSlug($titulo) {
     return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $titulo)));
 }
-
+ 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $imovel = new Imovel(
@@ -32,29 +32,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             possui_churrasqueira: isset($_POST['possui_churrasqueira']),
             slug:                 criarSlug($_POST['titulo'] ?? 'imovel')
         );
-
-        // 1. Salva o imóvel primeiro para gerar o ID
+ 
+       
         if ($imovel->salvar()) {
-            $idImovel = $imovel->id; 
-
-            // 2. Processa o upload das fotos enviadas pelo formulário
+            $idImovel = $imovel->id;
+ 
+           
             if (isset($_FILES['fotos']) && !empty($_FILES['fotos']['name'][0])) {
                 $pastaDestino = "../uploads/imoveis/";
-                
+               
                 if (!is_dir($pastaDestino)) {
                     mkdir($pastaDestino, 0777, true);
                 }
-
+ 
                 foreach ($_FILES['fotos']['name'] as $key => $nomeOriginal) {
                     $extensao = pathinfo($nomeOriginal, PATHINFO_EXTENSION);
                     $nomeArquivo = uniqid() . "." . $extensao;
                     $caminhoFisico = $pastaDestino . $nomeArquivo;
-
+ 
                     if (move_uploaded_file($_FILES['fotos']['tmp_name'][$key], $caminhoFisico)) {
-                        // Verifica qual é a foto de destaque escolhida
+                       
                         $destaque = (isset($_POST['index_principal']) && $_POST['index_principal'] == $key);
-
-                        // 3. Instancia e salva cada foto na tabela fotos_imovel
+ 
+                       
                         $foto = new FotoImovel(
                             id_imovel: $idImovel,
                             caminho:   "uploads/imoveis/" . $nomeArquivo,
@@ -65,12 +65,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
             }
-
-            // Redirecionamento corrigido para evitar erro 404
+ 
+           
             header("Location: ../view/painelCadImoveis.php?sucesso=1");
             exit;
         }
     } catch (Exception $e) {
         die("Erro: " . $e->getMessage());
     }
+}
+ 
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+ 
+    // Excluir imoveis
+    if(isset($_GET['excluir_id'])){
+ 
+        $idImovel = (int)$_GET['excluir_id'];
+        $diretorio = "../uploads/imoveis/$idImovel/";
+ 
+        // Apaga o banco de dadosssssssssssssssssssssssssssssssssssssssssssssssssssss
+        $imovel = New Imovel(id: $idImovel);
+        if($imovel->excluir()){
+            // Apaga o diretorio
+ 
+            if(is_dir($diretorio)){
+                    array_map('unlink', glob("$diretorio/*.*"));
+                    rmdir($diretorio);
+            }
+ 
+            echo "Excluído com sucesso!";
+ 
+        }
+ 
+    }
+ 
 }

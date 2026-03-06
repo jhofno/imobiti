@@ -1,4 +1,4 @@
-  <?php
+    <?php
     require_once(__DIR__ . "/../config/conexao.php");
  
     class Imovel
@@ -156,6 +156,8 @@
  
             }
  
+           
+ 
        
             $stmt = $pdo->prepare($sql);
  
@@ -199,6 +201,23 @@
  
         }
  
+ 
+        public function excluir(){
+ 
+            $pdo = self::getConexao();
+           
+            // 1. deleta as fotos do banco primeiro por causa da chave estrangeira
+            $stmt1 = $pdo->prepare("DELETE FROM `fotos_imovel` WHERE `id_imovel` = ?");
+            $stmt1->execute([$this->id]);
+ 
+            // 2. deleta o imovel
+            $stmt2 = $pdo->prepare("DELETE FROM `imoveis` WHERE `id_imovel` = ?");
+            return $stmt2->execute([$this->id]);
+        }
+ 
+ 
     }
  
    
+ 
+ 
