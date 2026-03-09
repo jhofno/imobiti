@@ -3,10 +3,7 @@
 
     $imoveis = Imovel::listarComFoto();
 
-    // CASO SUCESSO 1 - USUARIO CADASTRADO | SUCESSO 2- USUARIO EXCLUIDO COM SUCESSO
-   
-     $sucesso = $_GET['sucesso'] ?? 0;
-
+   session_start();
 
 ?>  
 
@@ -63,11 +60,18 @@
     </div>
 
      <!-- ALERTA -->
-        <?php if($sucesso==1): ?>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                Imóvel cadastrado com sucesso!
+        <?php if(isset($_SESSION['mensagem'])): ?>
+            <div class="alert alert-<?= $_SESSION['tipo_alerta'] ?> alert-dismissible fade show" role="alert">
+                <?= $_SESSION['mensagem'] ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
+
+            <?php 
+            //limpa as variaveis para nao repitir um alerta vazio
+            unset($_SESSION['mensagem']);
+            unset($_SESSION['tipo_alerta']);
+            
+            ?>
         <?php endif ?>
 
     <div class="content-card">
@@ -140,8 +144,12 @@
                                 <a href="#" class="btn btn-sm btn-outline-primary" title="Editar">
                                     <i class="bi bi-pencil"></i>
                                 </a>
-                                <a href="../controller/Imovel.php?excluir_id=<?=  $imovel->id ?>"type="button" class="btn btn-sm btn-outline-danger" title="Excluir">
-                                    <i class="bi bi-trash"></i>
+                                <a href="../controller/Imovel.php?excluir_id=<?=  $imovel->id ?>"type="button" 
+                                class="btn btn-sm btn-outline-danger" 
+                                title="Excluir"
+                                onclick="return confirm('Deseja excluir este Imóvel?')"
+                                >
+                                <i class="bi bi-trash"></i>
                             </a>
                             </div>
                         </td>
