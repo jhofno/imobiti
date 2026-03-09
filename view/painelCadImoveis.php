@@ -125,7 +125,7 @@
  
             <div class="card-header-custom">
                 <h4 class="m-0">Novo Cadastro de Imóvel</h4>
-                <a href="admin_lista_imoveis.html" class="btn btn-sm btn-outline-secondary">Voltar para lista</a>
+                <a href="painelAdmin.php" class="btn btn-sm btn-outline-secondary">Voltar para lista</a>
             </div>
  
           <!-- ALERTA -->

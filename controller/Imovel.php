@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                        
                         $foto = new FotoImovel(
                             id_imovel: $idImovel,
-                            caminho:   "uploads/imoveis/" . $nomeArquivo,
+                            caminho:   $caminhoFisico,
                             destaque:  $destaque,
                             ordem:     $key
                         );
@@ -82,6 +82,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
  
         $idImovel = (int)$_GET['excluir_id'];
         $diretorio = "../uploads/imoveis/$idImovel/";
+
+
+        $imovel= new Imovel(id:$idImovel);
  
         // Apaga o banco de dadosss
         if($imovel->excluir()){
@@ -92,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                     rmdir($diretorio);
             }
  
-            echo "Excluído com sucesso!";
+            header("Location: ../view/painelAdmin.php?sucesso=2");
  
         }
  

@@ -3,8 +3,12 @@
 
     $imoveis = Imovel::listarComFoto();
 
+    // CASO SUCESSO 1 - USUARIO CADASTRADO | SUCESSO 2- USUARIO EXCLUIDO COM SUCESSO
    
-?>
+     $sucesso = $_GET['sucesso'] ?? 0;
+
+
+?>  
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -53,10 +57,18 @@
     <!-- CABEÇALHO DA PÁGINA -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h4 class="section-title">Gerenciamento de Imóveis</h4>
-        <a href="formEditar_imovel.html" class="btn btn-primary">
+        <a href="painelCadImoveis.php" class="btn btn-primary">
             <i class="bi bi-plus-lg"></i> Novo Imóvel
         </a>
     </div>
+
+     <!-- ALERTA -->
+        <?php if($sucesso==1): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                Imóvel cadastrado com sucesso!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif ?>
 
     <div class="content-card">
         
@@ -85,6 +97,8 @@
             </div>
         </div>
 
+        
+
         <!-- TABELA DE DADOS -->
         <div class="table-responsive">
             <table class="table table-hover align-middle">
@@ -106,17 +120,17 @@
                      
                     <tr>
                         <td>
-                            <img src="<? $imovel->foto_principal?>" alt="Imóvel" class="img-preview">
+                            <img src="<?=  $imovel->foto_principal?>" alt="Imóvel" class="img-preview">
                         </td>
                         <td>
                             <div class="fw-bold text-dark"><?= $imovel->titulo ?></div>
                             <small class="text-muted"><?= $imovel->bairro ?>-<?= $imovel->cidade ?>-<?= $imovel->estado ?></small>
                         </td>
                         <td><?=ucfirst($imovel->tipo) ?></td>
-                        <td><?= $imovel->preco ?></td>
+                        <td>R$ <?= number_format ($imovel->preco, 2,',','.') ?></td>
                         <td>
                             <?php
-                             $cor = ['disponivel'=>'success','vendido'=>'danger','alugado'=>'warning'];
+                             $cor = ['Disponível'=>'success','Vendido'=>'danger','Alugado'=>'warning'];
                              $statusCor = $cor[$imovel->status] ?? 'secundary'
                              ?>
                             <span class="badge bg-<?= $statusCor?> badge-status"><?= $imovel->status ?></span>
@@ -126,9 +140,9 @@
                                 <a href="#" class="btn btn-sm btn-outline-primary" title="Editar">
                                     <i class="bi bi-pencil"></i>
                                 </a>
-                                <button type="button" class="btn btn-sm btn-outline-danger" title="Excluir">
+                                <a href="../controller/Imovel.php?excluir_id=<?=  $imovel->id ?>"type="button" class="btn btn-sm btn-outline-danger" title="Excluir">
                                     <i class="bi bi-trash"></i>
-                                </button>
+                            </a>
                             </div>
                         </td>
                     </tr>
