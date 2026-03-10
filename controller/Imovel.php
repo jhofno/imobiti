@@ -115,13 +115,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }//fim excluir//
     
     $filtros =[
-        'status' =>'Disponível',
-        'tipo'   =>'Casa',
-        'localizacao' => 'São Paulo',
+        // 'status' =>'Disponivel',
+        //'tipo'   =>'Casa',
+        'busca' => 'guaruja',
     ];   
 
     if(isset($_GET['filtro'])){
-        Imovel::listarComFiltros($filtros);
+        echo "<pre>";
+
+        print_r(Imovel::listarComFiltros($filtros));
+        
+        
     }
  
 }

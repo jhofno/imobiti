@@ -256,19 +256,55 @@
                 f.caminho AS foto_principal 
             FROM imoveis i 
             LEFT JOIN fotos_imovel f ON i.id_imovel = f.id_imovel AND f.destaque = 1
-            ORDER BY i.id_imovel DESC
             WHERE 1=1 
             
             ";
 
             $params = [];
+
             //filtro por tipo
             if(!empty($filtros['tipo'])){
                 $sql.= "AND i.tipo = ?";
                 $params[] = $filtros['tipo'];
 
-                echo $sql;
+                
+            };
+
+            //filtro por status
+            if(!empty($filtros['status'])){
+                $sql.= "AND i.status = ?";
+                $params[] = $filtros['status'];
+
+               
+            };
+
+
+            ///filtro de texto (Titulo,bairro ou cidade)
+
+            if (!empty($filtros['busca'])){
+                $sql.= " AND (i.titulo LIKE ? OR i.bairro Like ? OR i.cidade LIKE ?)";
+                $busca = "%" .$filtros['busca'] . "%";
+                $params[] = $busca;
+                $params[] = $busca;
+                $params[] = $busca;
+
+                
+
             }
+
+            $sql.= "ORDER BY i.id_imovel DESC";
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute($params);
+
+            //echo "<pre>";
+            //print_r($stmt->debugDumpParams());
+
+         
+
+            return $stmt->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE,'imovel');
+
+
 
         }
  
