@@ -5,6 +5,13 @@
 
    session_start();
 
+   $filtros = [
+    'tipo' => $_GET['fTipo'] ?? '',
+    'status'=> $_GET['fStatus'] ?? '',
+    'busca' => $_GET['fbusca'] ?? '',
+
+   ]
+
 ?>  
 
 <!DOCTYPE html>
@@ -77,19 +84,20 @@
     <div class="content-card">
         
         <!-- FILTROS RÁPIDOS -->
+        <form method="GET" action="painelAdmin.php">
         <div class="row mb-4">
             <div class="col-md-4">
-                <input type="text" class="form-control" placeholder="Pesquisar por título, bairro ou cidade...">
+                <input type="text" name="fBusca" class="form-control" placeholder="Pesquisar por título, bairro ou cidade...">
             </div>
             <div class="col-md-3">
-                <select class="form-select">
+                <select class="form-select" name="fTipo">
                     <option value="">Todos os tipos</option>
                     <option value="casa">Casa</option>
                     <option value="apartamento">Apartamento</option>
                 </select>
             </div>
             <div class="col-md-3">
-                <select class="form-select">
+                <select class="form-select" name="fStatus">
                     <option value="">Todos os status</option>
                     <option value="disponivel">Disponível</option>
                     <option value="vendido">Vendido</option>
@@ -97,9 +105,10 @@
                 </select>
             </div>
             <div class="col-md-2">
-                <button class="btn btn-outline-secondary w-100">Filtrar</button>
+                <button type="submit" class="btn btn-outline-secondary w-100">Filtrar</button>
             </div>
         </div>
+        </form>
 
         
 
