@@ -8,9 +8,11 @@
    $filtros = [
     'tipo' => $_GET['fTipo'] ?? '',
     'status'=> $_GET['fStatus'] ?? '',
-    'busca' => $_GET['fbusca'] ?? '',
+    'busca' => $_GET['fBusca'] ?? '',
 
-   ]
+   ];
+
+   $imoveis = Imovel::listarComFiltros($filtros);
 
 ?>  
 
@@ -87,13 +89,15 @@
         <form method="GET" action="painelAdmin.php">
         <div class="row mb-4">
             <div class="col-md-4">
-                <input type="text" name="fBusca" class="form-control" placeholder="Pesquisar por título, bairro ou cidade...">
+                <input type="text" value="<? $filtros['busca']?> name="fBusca" class="form-control" placeholder="Pesquisar por título, bairro ou cidade...">
             </div>
             <div class="col-md-3">
                 <select class="form-select" name="fTipo">
                     <option value="">Todos os tipos</option>
-                    <option value="casa">Casa</option>
-                    <option value="apartamento">Apartamento</option>
+                    <option value="Casa" <?= $filtros['tipo'] == "Casa" ? 'selected' : '' ?>>Casa</option>
+                    <option value="Apartamento" <?= $filtros['tipo'] == "Apartamento" ? 'selected' : '' ?>>Apartamento </option>
+                    <option value="Apartamento" <?= $filtros['tipo'] == "Apartamento" ? 'selected' : '' ?>>Terreno </option>
+                    <option value="Apartamento" <?= $filtros['tipo'] == "Apartamento" ? 'selected' : '' ?>>Sobrado</option>
                 </select>
             </div>
             <div class="col-md-3">

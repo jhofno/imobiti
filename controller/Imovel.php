@@ -115,8 +115,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }//fim excluir//
     
     $filtros =[
-        // 'status' =>'Disponivel',
-        //'tipo'   =>'Casa',
+        'status' =>'Disponivel',
+        'tipo'   =>'Casa',
         'busca' => 'guaruja',
     ];   
 
@@ -127,6 +127,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
               
     }
 
-    
+
  
 }
